@@ -1,0 +1,20 @@
+model_path: "${hydra:runtime.cwd}/checkpoints/half_time_lr1e-3.pth"
+test_name: old_team_dataset_half_time
+project_name: 3DSurfacePredictionTest
+time_bins: 10
+spatial_bins: 20
+batch_size: 2048
+test_dataset:
+  class: datasets.VoxelDataset3DPointsAndDistance
+  args:
+    time_bins: ${time_bins}
+    spatial_bins: ${spatial_bins}
+    path: "/storage/datasets/${test_name}_voxels"
+model:
+  class: models.Temporal3DPredictorAndDistance
+  args:
+    spatial_bins: ${spatial_bins}
+tester:
+  class: testers.Coordinate3DTesterWithIndexes
+loss:
+  class: losses.MSE
