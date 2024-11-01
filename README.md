@@ -10,7 +10,7 @@ To install this project on your cluster, follow these steps:
 # Clone the repository
 git clone https://github.com/efemantarci/modular-train.git
 # Navigate to the project directory
-cd projectname
+cd modular-train
 ```
 This project uses Weights and Biases for logging the data. Add your W&B API key in the [config.env](configs/config.env) file. Then, write your username in the necessary parts of the [train.sh](train.sh) and [test.sh](test.sh) files.
 If you want to change the docker container, you must use a container with wandb and hydra installed.
