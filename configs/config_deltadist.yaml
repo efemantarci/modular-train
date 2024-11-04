@@ -1,32 +1,32 @@
 epochs: 32
-batch_size: 64
+batch_size: 256
 learning_rate: 0.001
 arcitecture : 3DConv+LSTM
 checkpoint_frequency: 20
-time_bins: 10
+time_bins: 20
 spatial_bins: 20
 project_name: 3DSurfacePrediction
 
 train_dataset:
-  class: datasets.VoxelDataset3DPoints
+  class: datasets.VoxelDataset3DPointsAndDeltaDistance
   args:
     time_bins: ${time_bins}
     spatial_bins: ${spatial_bins}
-    path: /storage/datasets/uniform_train_voxels
+    path: /storage/datasets/uniform_train_20_time_voxels
 
 test_dataset:
-  class: datasets.VoxelDataset3DPoints
+  class: datasets.VoxelDataset3DPointsAndDeltaDistance
   args:
     time_bins: ${time_bins}
     spatial_bins: ${spatial_bins}
-    path: /storage/datasets/uniform_test_voxels
+    path: /storage/datasets/uniform_test_20_time_voxels
 
 model:
   class: models.Temporal3DPredictor
   args:
     spatial_bins: ${spatial_bins}
-    output_size: 6
+    output_size: 8
 loss:
   class: losses.MSE
 tester:
-  class: testers.Coordinate3DTesterRawWithIndexes
+  class: testers.Coordinate3DTesterDeltaDistanceWithIndexes

@@ -3,7 +3,7 @@ batch_size: 256
 learning_rate: 0.001
 arcitecture : 3DConv+LSTM
 checkpoint_frequency: 20
-time_bins: 10
+time_bins: 20
 spatial_bins: 20
 project_name: 3DSurfacePrediction
 
@@ -12,14 +12,14 @@ train_dataset:
   args:
     time_bins: ${time_bins}
     spatial_bins: ${spatial_bins}
-    path: /storage/datasets/uniform_train_half_time_voxels
+    path: /storage/datasets/uniform_train_20_time_voxels
 
 test_dataset:
   class: datasets.VoxelDataset3DPointsAndDistance
   args:
     time_bins: ${time_bins}
     spatial_bins: ${spatial_bins}
-    path: /storage/datasets/uniform_test_half_time_voxels
+    path: /storage/datasets/uniform_test_20_time_voxels
 
 model:
   class: models.Temporal3DPredictorAndDistance
