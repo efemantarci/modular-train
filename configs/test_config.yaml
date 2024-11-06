@@ -1,5 +1,5 @@
 wandb_path: https://wandb.ai/efemantaroglu-bo-azi-i-niversitesi/3DSurfacePrediction/runs/wuyevpw9
-test_name: old_team_dataset_20_time
+test_name: uniform_test_20_time
 project_name: 3DSurfacePredictionTest
 time_bins: 20
 spatial_bins: 20

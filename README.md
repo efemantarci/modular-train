@@ -27,7 +27,7 @@ Example usage:
 # Train the model
 sbatch train.sh
 # Train the model with a specific configuration
-sbatch train.sh --config_name=config_raw3d_prediction.yaml
+sbatch train.sh --config_name=config_raw3d_prediction epochs=100
 # Test the model
 sbatch test.sh
 ```
