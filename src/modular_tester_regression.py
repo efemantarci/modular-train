@@ -80,6 +80,7 @@ def test_model(model, test_loader, config):
     tester.set_criterion(instantiate_class(config.loss))
     total_loss = 0
     total_euclidean_mse = 0
+    total_amortized_mse = 0
     results = []
     example_input = None
 
@@ -95,11 +96,12 @@ def test_model(model, test_loader, config):
             start_idx = batch_idx * test_loader.batch_size
             indices = range(start_idx, start_idx + batch_size)
             
-            batch_loss, batch_euclidean_mse, batch_results = tester.calculate_batch_metrics(
+            batch_loss, (batch_euclidean_mse, batch_amortized_mse), batch_results = tester.calculate_batch_metrics(
                 outputs, targets, indices=indices
             )
             total_loss += batch_loss
             total_euclidean_mse += batch_euclidean_mse
+            total_amortized_mse += batch_amortized_mse
             results.extend(batch_results)
 
     # Save results and metrics
@@ -108,14 +110,17 @@ def test_model(model, test_loader, config):
     # Log final metrics
     avg_loss = total_loss / len(test_loader)
     avg_mse = total_euclidean_mse / len(test_loader)
+    avg_amortized_mse = total_amortized_mse / len(test_loader)
     wandb.log({
         "test_loss": avg_loss,
-        "euclidean_mse": avg_mse
+        "euclidean_mse": avg_mse,
+        "amortized_mse": avg_amortized_mse
     })
     
     print(f"Testing completed:")
     print(f"Average test loss: {avg_loss:.4f}")
     print(f"Average Euclidean MSE: {avg_mse:.4f}")
+    print(f"Average Amortized MSE: {avg_amortized_mse:.4f}")
 
 def download_model(wandb_path):
     # Preprocessing wandb path

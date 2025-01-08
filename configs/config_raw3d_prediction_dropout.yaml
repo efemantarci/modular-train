@@ -1,4 +1,4 @@
-epochs: 100
+epochs: 300
 batch_size: 512
 learning_rate: 0.001
 arcitecture : 3DConv+LSTM
@@ -8,24 +8,26 @@ spatial_bins: 20
 project_name: 3DSurfacePrediction
 
 train_dataset:
-  class: datasets.VoxelDataset3DPointsAndDistance
+  class: datasets.VoxelDatasetPointMoreOrder
   args:
     time_bins: ${time_bins}
     spatial_bins: ${spatial_bins}
     path: /storage/datasets/uniform_train_20_time_voxels
 
 test_dataset:
-  class: datasets.VoxelDataset3DPointsAndDistance
+  class: datasets.VoxelDatasetPointMoreOrder
   args:
     time_bins: ${time_bins}
     spatial_bins: ${spatial_bins}
     path: /storage/datasets/uniform_test_20_time_voxels
 
 model:
-  class: models.Temporal3DPredictorAndDistance
+  class: models.Temporal3DPredictorDropout
   args:
     spatial_bins: ${spatial_bins}
+    output_size: 6
+    dropout: 0.1
 loss:
   class: losses.MSE
 tester:
-  class: testers.Coordinate3DTesterWithIndexes
+  class: testers.Coordinate3DTesterRawWithIndexes
