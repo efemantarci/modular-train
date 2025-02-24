@@ -1,0 +1,38 @@
+epochs: 300
+batch_size: 512
+learning_rate: 0.001
+arcitecture : 3DConv+LSTM
+checkpoint_frequency: 100
+time_bins: 20
+spatial_bins: 20
+project_name: 3DSurfacePrediction
+normalization_factor: 10
+train_dataset:
+  class: datasets.VoxelDatasetPointMoreOrder
+  args:
+    time_bins: ${time_bins}
+    spatial_bins: ${spatial_bins}
+    path: /storage/datasets/uniform_train_3tx_20_time_voxels
+    normalization_factor: ${normalization_factor}
+test_dataset:
+  class: datasets.VoxelDatasetPointMoreOrder
+  args:
+    time_bins: ${time_bins}
+    spatial_bins: ${spatial_bins}
+    path: /storage/datasets/uniform_test_3tx_20_time_voxels
+    normalization_factor: ${normalization_factor}
+
+model:
+  class: models.Temporal3DPredictorDropout
+  args:
+    spatial_bins: ${spatial_bins}
+    output_size: 9
+    dropout: 0.1
+loss:
+  class: losses.MSEMinRaw
+  args:
+    normalization_factor: ${normalization_factor}
+tester:
+  class: testers.Coordinate3DTesterRawWithIndexes
+  args:
+    normalization_factor: ${normalization_factor}

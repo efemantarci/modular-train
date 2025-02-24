@@ -76,14 +76,12 @@ def make(config):
     # Make the model
     model = instantiate_class(config.model)
     model.to(device)
-
-    # Make the loss and optimizer
+        # Make the loss and optimizer
     criterion = instantiate_class(config.loss)
     optimizer = torch.optim.Adam(
-        model.parameters(), lr=config.learning_rate,eps=1e-8,weight_decay=1e-4)
+    model.parameters(), lr=config.learning_rate,eps=1e-8,weight_decay=1e-4)
     scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=20, gamma=0.5)
     scaler = amp.GradScaler()
-    
     return model, train_loader, val_loader, test_loader, criterion, optimizer, scheduler, scaler
 
 def get_data(dataset_config, train=True):
@@ -92,7 +90,6 @@ def get_data(dataset_config, train=True):
         return dataset
     train_data,val_data = torch.utils.data.random_split(dataset, [int(0.9 * len(dataset)), int(0.1 * len(dataset))])
     return train_data, val_data
-
 
 def make_loader(dataset, batch_size):
     loader = torch.utils.data.DataLoader(dataset=dataset,
@@ -145,7 +142,6 @@ def validate(model, val_loader, config):
 
 def train_batch(data, targets, model, optimizer, criterion, scaler):
     data, targets = data.to(device), targets.to(device)
-    
     # Forward pass ➡
     with amp.autocast("cuda"):
         outputs = model(data)
